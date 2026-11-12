@@ -1,0 +1,19 @@
+# Render Blueprint: New > Blueprint in the Render dashboard, then pick this repo.
+services:
+  - type: web
+    name: algo-senshi-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.10
+      # Your Vercel production URL, e.g. https://algo-senshi.vercel.app (comma-separate several).
+      - key: ALLOWED_ORIGINS
+        sync: false
+      # Lets Vercel preview deployments call the API too.
+      - key: ALLOWED_ORIGIN_REGEX
+        value: https://algo-senshi.*\.vercel\.app
